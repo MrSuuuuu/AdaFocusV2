@@ -130,6 +130,7 @@ def main():
 
         # train for one epoch
         train(train_loader, model, criterion, optimizer, epoch, log_training)
+        # import pdb; pdb.set_trace()
 
         if epoch > args.epochs - 10 or (epoch % 5 == 0):
             # evaluate the model on validation set
@@ -236,6 +237,7 @@ def train(train_loader, model, criterion, optimizer, epoch, log=None):
             images = torch.index_select(images, 1, index)  # sample policy
             images = images.view(_b, args.num_segments * 3, args.input_size, args.input_size)
         target = target[:, 0].cuda()
+        # import pdb; pdb.set_trace()
 
         optimizer.zero_grad()
         p1, p2 = model(images)
@@ -247,6 +249,7 @@ def train(train_loader, model, criterion, optimizer, epoch, log=None):
         loss_2 = criterion(outputs_2, target_e) + criterion(outputs_global_2, target_e) + criterion(outputs_local_2,
                                                                                                     target_e)
         loss = (loss_1 + loss_2) / 2
+        # import pdb; pdb.set_trace()
 
         loss.backward()
         optimizer.step()
